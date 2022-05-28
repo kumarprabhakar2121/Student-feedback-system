@@ -3,12 +3,12 @@ const jwt = require("jsonwebtoken");
 const User = require("../model/User");
 
 let register = async (req, res) => {
+  console.log(req.body);
   try {
-    const {name, phone, email, password, department } =
-      req.body;
-    if (!(name && phone && email && password)) {
+    const { name, phone, email, password, department, userRole } = req.body;
+    if (!(name && phone && email && password && department && userRole)) {
       res.status(400).json({
-        msg: "All fields are required: firstName,lastName,phone, email, password,department ",
+        msg: "All fields are required: firstName,lastName,phone, email, password,department,userRole ",
       });
     } else {
       const existingUser = await User.findOne({
@@ -23,14 +23,15 @@ let register = async (req, res) => {
         phone,
         password,
         department,
+        userRole,
       });
       if (user) {
-        return res.json({
+        return res.status(200).json({
           success: true,
           msg: "signup successfully.......login now",
         });
       } else {
-        return res.json({
+        return res.status(400).json({
           success: false,
           msg: "signup unsuccessful",
         });
@@ -131,7 +132,7 @@ let users = async (req, res) => {
   try {
     let userRole;
     let query = "";
-    let firstName = "";
+    let department;
     if (req.query.userRole) {
       userRole = req.query.userRole;
     } else {
@@ -140,6 +141,16 @@ let users = async (req, res) => {
     if (req.query.query) {
       query = req.query.query;
     }
+    if (req.query.department) {
+      department = req.query.department;
+    } else {
+      department = ["CSE", "ECE", "EEE", "MECH", "CIVIL"];
+    }
+    if (req.query.isVerified) {
+      isVerified = req.query.isVerified;
+    } else {
+      isVerified = [true, false];
+    }
     let page;
     let limit;
     page = parseInt(req.query.page) || 1;
@@ -147,13 +158,14 @@ let users = async (req, res) => {
     let currentPage = page;
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
-
     const result = {};
     result.page;
     result.currentPage = currentPage;
     let data = await User.find({
       firstName: { $regex: query, $options: "$i" },
       userRole,
+      department,
+      isVerified,
     });
     const length = data.length;
     result.total_count = length;

@@ -5,14 +5,18 @@ const Review = require("../model/Review");
 const User = require("../model/User");
 
 let add = async (req, res) => {
-  if (!req.user) {
-    return res.json({
-      success: false,
-      msg: "Log in first",
-    });
+  let student_id;
+  if (req.user) {
+    // return res.json({
+    //   success: false,
+    //   msg: "Log in first",
+    // });
+    student_id = req.user.user_id;
+  } else {
+    console.log("user not logged in");
+    student_id = req.body.student_id;
   }
-
-  const student_id = req.user.user_id;
+  console.log(req.body);
   const {
     teacher_id,
     review_for_subject,
@@ -38,14 +42,14 @@ let add = async (req, res) => {
   ) {
     res.status(400).json({
       msg: `All fields are required:
-      teacher_id,
-      review_for_subject,
-      student_semester,
-      course_completion_review,
-      attitude_review,
-      student_course,
-      teaching_technique_review,
-        `,
+        teacher_id,
+        review_for_subject,
+        student_semester,
+        course_completion_review,
+        attitude_review,
+        student_course,
+        teaching_technique_review,
+          `,
     });
   } else {
     try {

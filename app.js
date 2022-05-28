@@ -28,8 +28,10 @@ app.use(express.static("public"));
 app.get("/", (req, res) => {
   res.render("home");
 });
-app.get("/form", (req, res) => {
-  res.render("form");
+app.post("/form", (req, res) => {
+  console.log(req.body);
+  // res.render("form");
+  res.json({ success: true });
 });
 
 const userRoute = require("./route/userRoute");
