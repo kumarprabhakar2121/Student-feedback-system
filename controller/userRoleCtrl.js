@@ -37,6 +37,41 @@ let changeUserRoleToTeacher = async (req, res) => {
     });
 };
 
+let changeUserRoleToStudent = async (req, res) => {
+  const user_id = req.params.user_id;
+  await User.findByIdAndUpdate(
+    user_id,
+    {
+      $set: {
+        userRole: "student",
+      },
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
+    .exec()
+    .then((result) => {
+      if (result) {
+        return res.json({
+          success: true,
+          msg: " successfully updated user role to student",
+          result,
+        });
+        // next();
+      } else {
+        return res.json({
+          success: false,
+          msg: "updating unsuccessful",
+        });
+      }
+    })
+    .catch((next) => {
+      return res.send(next);
+    });
+};
+
 let changeUserRoleToHod = async (req, res) => {
   const user_id = req.params.user_id;
   await User.findByIdAndUpdate(
@@ -78,7 +113,7 @@ let verifyUser = async (req, res) => {
     user_id,
     {
       $set: {
-        isVerified: true,
+        isVerified: "yes",
       },
     },
     {
@@ -113,7 +148,7 @@ let unVerifyUser = async (req, res) => {
     user_id,
     {
       $set: {
-        isVerified: false,
+        isVerified: "no",
       },
     },
     {
@@ -144,6 +179,7 @@ let unVerifyUser = async (req, res) => {
 module.exports = {
   changeUserRoleToHod,
   changeUserRoleToTeacher,
+  changeUserRoleToStudent,
   verifyUser,
   unVerifyUser,
 };
