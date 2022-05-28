@@ -149,7 +149,7 @@ let users = async (req, res) => {
     if (req.query.isVerified) {
       isVerified = req.query.isVerified;
     } else {
-      isVerified = [true, false];
+      isVerified = ["yes", "no"];
     }
     let page;
     let limit;
@@ -190,6 +190,8 @@ let users = async (req, res) => {
       result.results = await User.find({
         firstName: { $regex: query, $options: "$i" },
         userRole,
+        department,
+        isVerified,
       })
         .limit(limit)
         .skip(startIndex);

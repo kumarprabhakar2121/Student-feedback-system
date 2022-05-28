@@ -30,8 +30,9 @@ const userSchema = new mongoose.Schema(
       enum: ["student", "teacher", "hod", "admin"],
     },
     isVerified: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: "no",
+      enum: ["no", "yes"],
     },
     department: {
       type: String,
