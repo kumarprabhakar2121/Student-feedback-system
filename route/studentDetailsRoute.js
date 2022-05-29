@@ -10,13 +10,10 @@ var students_detailsCtrl = require("../controller/students_detailsCtrl");
 
 router
   .route("/")
-  .post(verifyTokenAndStudent, students_detailsCtrl.add)
-  .get(verifyTokenAndStudent, students_detailsCtrl.getDetailsOfLoggedUser)
-  .put(verifyTokenAndStudent, students_detailsCtrl.updateDetailsOfLoggedUser)
-  .delete(
-    verifyTokenAndStudent,
-    students_detailsCtrl.deleteDetailsOfLoggedUser
-  );
+  .post(students_detailsCtrl.add)
+  .get(students_detailsCtrl.getDetailsOfLoggedUser)
+  .put(students_detailsCtrl.updateDetailsOfLoggedUser)
+  .delete(students_detailsCtrl.deleteDetailsOfLoggedUser);
 
 router.route("/list").get(students_detailsCtrl.getAllDetails);
 
@@ -28,9 +25,7 @@ router
   .route("/delete/id/:id")
   .delete(students_detailsCtrl.deleteDetailsUsingId);
 
-router
-  .route("/verify/:id")
-  .get(verifyTokenAndHodOrTeacherOrAdmin, students_detailsCtrl.verify);
+router.route("/verify/:id").get(students_detailsCtrl.verify);
 
 router
   .route("/unverify/:id")

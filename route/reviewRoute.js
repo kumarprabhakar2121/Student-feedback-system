@@ -8,11 +8,9 @@ const {
 
 var reviewCtrl = require("../controller/reviewCtrl");
 
-router.route("/").post(verifyTokenAndStudent, reviewCtrl.add);
+router.route("/").post(reviewCtrl.add);
 
-router
-  .route("/")
-  .get(verifyTokenAndStudent, reviewCtrl.getReviewsOfLoggedStudent);
+router.route("/").get(reviewCtrl.getReviewsOfLoggedStudent);
 
 router.route("/list").get(reviewCtrl.getAllReviews);
 
