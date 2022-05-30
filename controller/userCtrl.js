@@ -129,6 +129,8 @@ let logout = async (req, res) => {
 };
 
 let users = async (req, res) => {
+  console.log(req.body);
+  console.log(req.cookie);
   try {
     let userRole;
     let query = "";

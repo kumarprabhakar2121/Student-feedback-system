@@ -61,6 +61,7 @@ let add = async (req, res) => {
         });
       }
       const checkingForTeacher = await User.findById(teacher_id);
+      console.log(checkingForTeacher);
       if (!(checkingForTeacher && checkingForTeacher.userRole == "teacher")) {
         return res.json({
           success: false,

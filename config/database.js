@@ -4,7 +4,7 @@ const { MONGODB_URL } = process.env;
 
 exports.connect = () => {
   mongoose
-    .connect(MONGODB_URL, {
+    .connect("mongodb://localhost:27017/SFS", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
